@@ -1,0 +1,75 @@
+% --- Hechos básicos: género ---
+varon(seferino).
+varon(mauricio).
+varon(raul).
+varon(julio).
+varon(felipe).
+varon(alberto).
+
+mujer(dionicia).
+mujer(daniela).
+
+% --- Hechos básicos: padres ---
+padre(seferino, mauricio).
+padre(seferino, raul).
+padre(seferino, julio).
+padre(seferino, felipe).
+padre(seferino, alberto).
+padre(seferino, daniela).
+
+madre(dionicia, mauricio).
+madre(dionicia, raul).
+madre(dionicia, julio).
+madre(dionicia, felipe).
+madre(dionicia, alberto).
+madre(dionicia, daniela).
+
+
+% --- Definición de progenitor ---
+progenitor(X, Y) :- padre(X, Y).
+progenitor(X, Y) :- madre(X, Y).
+
+% --- Relaciones familiares ---
+
+% Hermano: comparten padre o madre y son varones
+hermano(X, Y) :-
+    varon(X),
+    X \= Y,
+    progenitor(Z, X),
+    progenitor(Z, Y).
+
+% Hijo: X es hijo de Y
+hijo(X, Y) :-
+    varon(X),
+    progenitor(Y, X).
+
+% Abuelo: X es padre/madre de un progenitor de Y
+abuelo(X, Y) :-
+    varon(X),
+    progenitor(X, Z),
+    progenitor(Z, Y).
+
+% Tío: hermano del padre o madre
+tio(X, Y) :-
+    varon(X),
+    progenitor(Z, Y),
+    hermano(X, Z).
+
+% Sobrino: hijo de un hermano
+sobrino(X, Y) :-
+    varon(X),
+    hermano(Z, Y),
+    progenitor(Z, X).
+
+% Nieto: hijo de un hijo o hija
+nieto(X, Y) :-
+    varon(X),
+    progenitor(Y, Z),
+    progenitor(Z, X).
+
+
+
+
+
+
+
